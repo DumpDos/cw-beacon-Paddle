@@ -2,33 +2,57 @@
 
 #define PIN_SP 10
 #define PIN_TX 13
+#define PIN_DI 2
+#define PIN_DA 3
+
+int tone_di;
+int tone_da;
 
 Si5351 si5351;
 
-int32_t cal_factor = 68000;    // Your calibration value. Please see si5351_calibration in examples
-uint16_t duration = 85;    // Morse code typing speed in milliseconds - higher number means slower typing
+int32_t cal_factor = 53000;    // Your calibration value. Please see si5351_calibration in examples
+uint16_t duration = 80;    // Morse code typing speed in milliseconds - higher number means slower typing
 uint16_t hz = 750;         // Volume up if a high ohm speaker connected to circuit of the morse generator
-uint64_t target_freq = 14448000000ULL; // 10 MHz, in hundredths of hertz
-String cw_message = "VVV de TA2BGH  LOCATOR IS KM59gs  PWR IS 10mW  ANT IS HANDMADE VERTICAL";   // Your message
+uint64_t target_freq = 701000000ULL; // 10 MHz, in hundredths of hertz
+String cw_message = "VVV DE MINI CW TRANSMITTER PWR IS 10mW";   // Your message
 //----------
+
 void setup() {
   pinMode(PIN_TX, OUTPUT);
+  pinMode(PIN_DI, INPUT);
+  pinMode(PIN_DA, INPUT);
+  digitalWrite(PIN_DI, HIGH);
+  digitalWrite(PIN_DA, HIGH);
 
   si5351.init(SI5351_CRYSTAL_LOAD_8PF, 0, 0);
   si5351.set_correction(cal_factor, SI5351_PLL_INPUT_XO);
   si5351.set_pll(SI5351_PLL_FIXED, SI5351_PLLA);
   si5351.set_freq(target_freq, SI5351_CLK0);
+
+  // Start of the opening transmission
+  cw(true);
+  delay(5000);
+  cw(false);
+  delay(2000);
+  cw_string_proc(cw_message);
   }
 //----------
 void loop() {
-  cw_string_proc(cw_message);
-  delay(500);                           // Duration of the break at the end before the long signal - in milliseconds
 
-  cw(true);
-  delay(5000);                         // Duration of the long signal at the end - in milliseconds
+// Script for paddle key 
+// Connect the DI pin of the paddle on the input D2 of the arduino
+// Connect the DAH pin of the paddle on the input D3 of the arduino
+// Connect the common of the paddle on the GND of the arduino
 
-  cw(false);
-  delay(1000);                          // Duration of the pause at the end after the long signal - in milliseconds
+tone_di = digitalRead(PIN_DI);
+tone_da = digitalRead(PIN_DA);
+
+if(tone_di == HIGH);
+else di();
+
+if(tone_da == HIGH);
+else dah();
+
 }
 //----------
 void cw_string_proc(String str) {                      // Processing string to characters
