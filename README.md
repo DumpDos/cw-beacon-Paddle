@@ -13,6 +13,6 @@ de Dumpdos
 
 <p align="center">
 	<a href="https://youtube.com/shorts/4X3NrZ3qRUM">
-	<img src="https://raw.githubusercontent.com/mebeldek/cw-beacon/main/img/cw-beacon.jpg"></a>
+	<img src="https://raw.githubusercontent.com/DumpDos/cw-beacon-Paddle/main/img/cw-transmitter.jpg"></a>
 	<a href="https://youtube.com/shorts/4X3NrZ3qRUM">Video</a>
 </p>
